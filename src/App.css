@@ -40,3 +40,20 @@
 .read-the-docs {
   color: #888;
 }
+
+// custom fonts
+@font-face {
+  font-family: NKA;
+  src: ("/public/fonts/NKA/NotoKufiArabic-Thin.ttf");
+  weight: 400;
+}
+@font-face {
+  font-family: NKA;
+  src: ("/public/fonts/NKA/NotoKufiArabic-Medium.ttf");
+  weight: 500;
+}
+@font-face {
+  font-family: NKA;
+  src: ("/public/fonts/NKA/NotoKufiArabic-Bold.ttf");
+  weight: 600;
+}
