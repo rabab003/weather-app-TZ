@@ -3,7 +3,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import axios from "axios";
+import axios, { Axios } from "axios";
 
 // icons
 import CloudIcon from "@mui/icons-material/Cloud";
@@ -14,22 +14,37 @@ const theme = createTheme({
   },
 });
 
-import { useEffect } from "react";
-// axios library
+import { useEffect, useState } from "react";
+import { Cancel } from "@mui/icons-material";
 
 function App() {
+  let cancelAxios = null;
+  const [temp, setTemp] = useState(null);
+
   useEffect(() => {
     axios
       .get(
-        "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/London,UK?unitGroup=us&key=DN5KW8ENLZ3HSPQ3LKADLRQVN"
+        "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/London,UK?unitGroup=us&key=DN5KW8ENLZ3HSPQ3LKADLRQVN",
+        {
+          cancelToken: new axios.CancelToken((c) => {
+            cancelAxios = c;
+          }),
+        }
       )
       .then(function (response) {
-        console.log(response.data.queryCost);
+        const responseTemp = Math.round(response.data.days[0].temp);
+        // const responseTemp = Math.round(response.data.days[0].temp - 272.15);
+        setTemp(responseTemp);
       })
       .catch(function (error) {
         console.log(error);
       });
-  });
+
+    return () => {
+      cancelAxios();
+    };
+  }, []);
+
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -92,7 +107,7 @@ function App() {
                     {/* temp */}
                     <div>
                       <Typography variant="h1" style={{ textAlign: "right" }}>
-                        40
+                        {temp}
                       </Typography>
 
                       {/* todo:temp image */}
