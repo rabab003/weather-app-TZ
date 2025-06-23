@@ -3,6 +3,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import axios from "axios";
 
 // icons
 import CloudIcon from "@mui/icons-material/Cloud";
@@ -13,7 +14,22 @@ const theme = createTheme({
   },
 });
 
+import { useEffect } from "react";
+// axios library
+
 function App() {
+  useEffect(() => {
+    axios
+      .get(
+        "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/London,UK?unitGroup=us&key=DN5KW8ENLZ3HSPQ3LKADLRQVN"
+      )
+      .then(function (response) {
+        console.log(response.data.queryCost);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  });
   return (
     <>
       <ThemeProvider theme={theme}>
