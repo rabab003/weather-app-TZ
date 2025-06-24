@@ -19,7 +19,13 @@ import { Cancel } from "@mui/icons-material";
 
 function App() {
   let cancelAxios = null;
-  const [temp, setTemp] = useState(null);
+  const [temp, setTemp] = useState({
+    number: null,
+    desc: "",
+    min: null,
+    max: null,
+    icon: null,
+  });
 
   useEffect(() => {
     axios
@@ -33,8 +39,20 @@ function App() {
       )
       .then(function (response) {
         const responseTemp = Math.round(response.data.days[0].temp);
+        const Tempmin = Math.round(response.data.days[0].tempmin);
+        const Tempmax = Math.round(response.data.days[0].tempmax);
+        const TempDesc = response.data.days[1].description;
+        const responseIcon = response.data.days[0].icon;
+
         // const responseTemp = Math.round(response.data.days[0].temp - 272.15);
-        setTemp(responseTemp);
+        setTemp({
+          number: responseTemp,
+          min: Tempmin,
+          max: Tempmax,
+          desc: TempDesc,
+          icon: responseIcon,
+        });
+        console.log(responseIcon);
       })
       .catch(function (error) {
         console.log(error);
@@ -107,13 +125,13 @@ function App() {
                     {/* temp */}
                     <div>
                       <Typography variant="h1" style={{ textAlign: "right" }}>
-                        {temp}
+                        {temp.number}
                       </Typography>
 
                       {/* todo:temp image */}
                     </div>
                     {/* ===== temp */}
-                    <Typography variant="h6">broken clouds</Typography>
+                    <Typography variant="h6">{temp.desc}</Typography>
 
                     <div
                       style={{
@@ -122,9 +140,9 @@ function App() {
                         justifyContent: "space-between",
                       }}
                     >
-                      <h5>الصغرى : 34</h5>
+                      <h5>الصغرى : {temp.min}</h5>
                       <h5 style={{ margin: "0px 7px" }}>|</h5>
-                      <h5>الكبرى : 43</h5>
+                      <h5>الكبرى : {temp.max}</h5>
                     </div>
                   </div>
                   {/* ==== degree & disc ==== */}
