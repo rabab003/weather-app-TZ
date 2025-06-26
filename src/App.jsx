@@ -3,7 +3,13 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+
+// external librs
 import axios, { Axios } from "axios";
+import moment from "moment";
+// import "moment/min/locales";
+import "moment/dist/locale/ar";
+moment.locale("ar");
 
 // icons
 import CloudIcon from "@mui/icons-material/Cloud";
@@ -26,8 +32,10 @@ function App() {
     max: null,
     icon: null,
   });
+  const [date, setDate] = useState("");
 
   useEffect(() => {
+    setDate(moment().format("MMM Do YY"));
     axios
       .get(
         "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/London,UK?unitGroup=us&key=DN5KW8ENLZ3HSPQ3LKADLRQVN",
@@ -112,7 +120,7 @@ function App() {
                     variant="h5"
                     gutterBottom
                   >
-                    الاحد 22/6
+                    {date}
                   </Typography>
                 </div>
                 <hr />
