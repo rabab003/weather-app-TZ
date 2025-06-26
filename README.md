@@ -2,9 +2,9 @@
 
 A responsive weather application with multilingual support, built with React and Material UI.
 
-![Weather App Screenshot](/public/image/screencapture-localhost-5173-2025-06-26-14_19_24.png) <!-- Replace with your actual screenshot file -->
+![Weather App Screenshot](/public/image/screencapture-localhost-5173-2025-06-26-14_19_24.png)
 
-[![Live Demo](https://img.shields.io/badge/demo-live-green)](https://your-demo-link.com) <!-- Replace with your actual demo link -->
+[![Live Demo](https://img.shields.io/badge/demo-live-green)](https://weather-app-virid-psi.vercel.app/)
 
 ## Features
 
