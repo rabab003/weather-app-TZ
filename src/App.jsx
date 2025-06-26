@@ -3,11 +3,13 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+// import translation from "../public/locales/ar/translation.json";
 
 // external librs
 import axios, { Axios } from "axios";
 import moment from "moment";
-// import "moment/min/locales";
+import { useTranslation } from "react-i18next";
+
 import "moment/dist/locale/ar";
 moment.locale("ar");
 
@@ -24,6 +26,7 @@ import { useEffect, useState } from "react";
 import { Cancel } from "@mui/icons-material";
 
 function App() {
+  const { t, i18n } = useTranslation();
   let cancelAxios = null;
   const [temp, setTemp] = useState({
     number: null,
@@ -33,6 +36,22 @@ function App() {
     icon: null,
   });
   const [date, setDate] = useState("");
+  const [locale, setLocale] = useState("ar");
+
+  function handleLangaugeClick() {
+    if (locale == "en") {
+      setLocale("ar");
+      i18n.changeLanguage("ar");
+    } else {
+      setLocale("en");
+      i18n.changeLanguage("en");
+    }
+    setDate(moment().format("MMM Do YY"));
+  }
+
+  useEffect(() => {
+    i18n.changeLanguage("ar");
+  }, []);
 
   useEffect(() => {
     setDate(moment().format("MMM Do YY"));
@@ -51,8 +70,6 @@ function App() {
         const Tempmax = Math.round(response.data.days[0].tempmax);
         const TempDesc = response.data.days[1].description;
         const responseIcon = response.data.days[0].icon;
-
-        // const responseTemp = Math.round(response.data.days[0].temp - 272.15);
         setTemp({
           number: responseTemp,
           min: Tempmin,
@@ -113,7 +130,7 @@ function App() {
                     variant="h2"
                     gutterBottom
                   >
-                    النجف
+                    {t("najaf")}
                   </Typography>
                   <Typography
                     style={{ marginRight: "20px" }}
@@ -139,7 +156,7 @@ function App() {
                       {/* todo:temp image */}
                     </div>
                     {/* ===== temp */}
-                    <Typography variant="h6">{temp.desc}</Typography>
+                    <Typography variant="h6">{t(temp.desc)}</Typography>
 
                     <div
                       style={{
@@ -148,9 +165,13 @@ function App() {
                         justifyContent: "space-between",
                       }}
                     >
-                      <h5>الصغرى : {temp.min}</h5>
+                      <h5>
+                        {t("min")} : {temp.min}
+                      </h5>
                       <h5 style={{ margin: "0px 7px" }}>|</h5>
-                      <h5>الكبرى : {temp.max}</h5>
+                      <h5>
+                        {t("max")} : {temp.max}
+                      </h5>
                     </div>
                   </div>
                   {/* ==== degree & disc ==== */}
@@ -170,8 +191,11 @@ function App() {
                 justifyContent: "end",
               }}
             >
-              <Button style={{ color: "white", marginTop: "7px" }}>
-                انجليزي
+              <Button
+                onClick={handleLangaugeClick}
+                style={{ color: "white", marginTop: "7px" }}
+              >
+                {locale == "en" ? "arabic" : "انجليزي"}
               </Button>
             </div>
           </div>
