@@ -37,6 +37,7 @@ function App() {
   });
   const [date, setDate] = useState("");
   const [locale, setLocale] = useState("ar");
+  const direction = locale == "ar" ? "rtl" : "ltr";
 
   function handleLangaugeClick() {
     if (locale == "en") {
@@ -57,7 +58,9 @@ function App() {
     setDate(moment().format("MMM Do YY"));
     axios
       .get(
-        "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/London,UK?unitGroup=us&key=DN5KW8ENLZ3HSPQ3LKADLRQVN",
+        `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/London,UK?unitGroup=us&key=${
+          import.meta.env.VITE_WEATHER_API_KEY
+        }`,
         {
           cancelToken: new axios.CancelToken((c) => {
             cancelAxios = c;
@@ -104,12 +107,12 @@ function App() {
           >
             {/* card */}
             <div
-              dir="rtl"
+              dir={direction}
               style={{
                 background: "rgb(28 52 91 / 36%)",
                 color: "white",
                 width: "100%",
-                padding: "10px",
+                padding: "25px",
                 borderRadius: "15px",
                 boxShadow: "0px 7px 10px rgba(0,0,0,0.5)",
               }}
@@ -123,7 +126,7 @@ function App() {
                     alignItems: "end",
                     justifyContent: "start",
                   }}
-                  dir="rtl"
+                  dir={direction}
                 >
                   <Typography
                     style={{ marginRight: "20px", fontWeight: "600" }}
@@ -184,7 +187,7 @@ function App() {
             </div>
             {/* translation div */}
             <div
-              dir="rtl"
+              // dir={direction}
               style={{
                 width: "100%",
                 display: "flex",
