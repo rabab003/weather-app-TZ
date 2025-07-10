@@ -3,7 +3,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-// import translation from "../public/locales/ar/translation.json";
+import weatherApiSlice from "./weatherApiSlice";
 
 // external librs
 import axios, { Axios } from "axios";
@@ -16,6 +16,9 @@ moment.locale("ar");
 // icons
 import CloudIcon from "@mui/icons-material/Cloud";
 
+// redux import
+import { useSelector, useDispatch } from "react-redux";
+
 const theme = createTheme({
   typography: {
     fontFamily: ["NKA"],
@@ -26,6 +29,11 @@ import { useEffect, useState } from "react";
 import { Cancel } from "@mui/icons-material";
 
 function App() {
+  const dispatch = useDispatch();
+  const result = useSelector((state) => {
+    // console.log("the state is ", state);
+    return state.result;
+  });
   const { t, i18n } = useTranslation();
   let cancelAxios = null;
   const [temp, setTemp] = useState({
@@ -51,6 +59,7 @@ function App() {
   }
 
   useEffect(() => {
+    dispatch(weatherApiSlice());
     i18n.changeLanguage("ar");
   }, []);
 
